@@ -42,6 +42,7 @@ public interface UserRepository extends GraphRepository<User> {
 	/**
 	 * Redeclaration of {@link CrudRepository#findOne(java.io.Serializable)} to change transaction configuration.
 	 */
+	@Transactional
 	User findOne(Long primaryKey);
 
 	/**

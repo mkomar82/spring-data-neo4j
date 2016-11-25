@@ -158,11 +158,9 @@ public class DerivedGraphRepositoryQuery implements RepositoryQuery {
 				}
 			}
 
-			Iterator<?> objectIterator = session.loadAll(returnType, params, queryDepth).iterator();
-			if (objectIterator.hasNext()) {
-				return objectIterator.next();
-			}
-			return null;
+			Iterator<?> objectIterator = session.loadAll(concreteType, params).iterator();
+			Object result = objectIterator.hasNext() ? objectIterator.next() : null;
+			return graphQueryMethod.wrapIfOptional(result);
 		}
 
 		@Override

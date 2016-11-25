@@ -14,10 +14,7 @@
 package org.springframework.data.neo4j.repository.query;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
+import java.lang.reflect.*;
 
 import org.neo4j.ogm.session.Session;
 import org.springframework.data.neo4j.annotation.Depth;
@@ -28,6 +25,7 @@ import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.data.repository.core.RepositoryMetadata;
 import org.springframework.data.repository.query.QueryMethod;
 import org.springframework.data.repository.query.RepositoryQuery;
+import org.springframework.util.ClassUtils;
 
 /**
  * @author Mark Angrish
@@ -35,6 +33,20 @@ import org.springframework.data.repository.query.RepositoryQuery;
  * @author Oliver Gierke
  */
 public class GraphQueryMethod extends QueryMethod {
+
+    private static Class<?> javaUtilOptionalClass = null;
+    private static Method javaUtilOptionalOfNullable = null;
+
+    static {
+        try {
+            javaUtilOptionalClass =
+                    ClassUtils.forName("java.util.Optional", GraphQueryMethod.class.getClassLoader());
+            javaUtilOptionalOfNullable = javaUtilOptionalClass.getMethod("ofNullable", Object.class);
+        }
+        catch (Exception ex) {
+            // Java 8 not available - Optional references simply not supported then.
+        }
+    }
 
     private final Session session;
     private final Method method;
@@ -77,7 +89,7 @@ public class GraphQueryMethod extends QueryMethod {
         Class<?> type = this.method.getReturnType();
         Type genericType = this.method.getGenericReturnType();
 
-        if (Iterable.class.isAssignableFrom(type)) {
+        if (Iterable.class.isAssignableFrom(type) || type == javaUtilOptionalClass) {
             if (genericType instanceof ParameterizedType) {
                 ParameterizedType returnType = (ParameterizedType) genericType;
                 Type componentType = returnType.getActualTypeArguments()[0];
@@ -105,6 +117,22 @@ public class GraphQueryMethod extends QueryMethod {
         }
         return new DerivedGraphRepositoryQuery(this, session);
 
+    }
+
+    public Object wrapIfOptional(Object object) {
+        if (method.getReturnType().getName().equals("java.util.Optional")) {
+            return optionalOf(object);
+        }
+        return object;
+    }
+
+    private static Object optionalOf(Object object) {
+        try {
+            return javaUtilOptionalOfNullable == null ? object : javaUtilOptionalOfNullable.invoke(null, object);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            // should not happen
+        }
+        return object;
     }
 
     public Integer getQueryDepthParamIndex() {

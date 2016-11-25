@@ -66,17 +66,12 @@ public class GraphRepositoryQuery implements RepositoryQuery {
 		ParameterAccessor accessor = new ParametersParameterAccessor(graphQueryMethod.getParameters(), parameters);
 		ResultProcessor processor = graphQueryMethod.getResultProcessor();
 
-		Object result;
-		if (returnType.equals(Optional.class)) {
-			final Class optionalType = (Class)((ParameterizedTypeImpl) graphQueryMethod.getMethod().getGenericReturnType()).getActualTypeArguments()[0];
-			result = Optional.of(execute(optionalType, concreteType, getQueryString(), params, accessor));
-		}
-		else {
-			result = execute(returnType, concreteType, getQueryString(), params, accessor);
-		}
+		Object result = execute(returnType, concreteType, getQueryString(), params, accessor);
 
-		return Result.class.equals(returnType) ? result :
+		Object processed =  Result.class.equals(returnType) ? result :
 				processor.withDynamicProjection(accessor).processResult(result);
+
+		return graphQueryMethod.wrapIfOptional(processed);
 	}
 
 	protected Object execute(Class<?> returnType, Class<?> concreteType, String cypherQuery,
@@ -105,7 +100,7 @@ public class GraphRepositoryQuery implements RepositoryQuery {
 			return session.query(cypherQuery, queryParams);
 		}
 
-		return session.queryForObject(returnType, cypherQuery, queryParams);
+		return session.queryForObject(concreteType, cypherQuery, queryParams);
 	}
 
 	@Override

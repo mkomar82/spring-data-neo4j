@@ -26,6 +26,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author Michal Bachman
@@ -121,4 +122,11 @@ public interface UserRepository extends PersonRepository<User> {
 
     Slice<User> findByNameAndRatingsStars(String name, int stars, Pageable pageable);
 
+    Optional<User> findDerivedOptionalByName(String name);
+
+    @Query("MATCH (user:User {name:{0}}) RETURN user")
+    Optional<User> findQueryOptionalByName(String name);
+
+    @Query("MATCH (user:User {name:{0}}) RETURN id(user) AS userId, user.name AS userName, user.age")
+    Optional<UserQueryResult> findQueryResultOptionalByName(String name);
 }
