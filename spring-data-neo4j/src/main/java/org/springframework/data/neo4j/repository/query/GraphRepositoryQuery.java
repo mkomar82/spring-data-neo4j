@@ -14,9 +14,11 @@
 package org.springframework.data.neo4j.repository.query;
 
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.neo4j.ogm.model.QueryStatistics;
 import org.neo4j.ogm.model.Result;
@@ -29,6 +31,7 @@ import org.springframework.data.repository.query.ParametersParameterAccessor;
 import org.springframework.data.repository.query.RepositoryQuery;
 import org.springframework.data.repository.query.ResultProcessor;
 import org.springframework.util.StringUtils;
+import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
 
 
 /**
@@ -62,7 +65,15 @@ public class GraphRepositoryQuery implements RepositoryQuery {
 
 		ParameterAccessor accessor = new ParametersParameterAccessor(graphQueryMethod.getParameters(), parameters);
 		ResultProcessor processor = graphQueryMethod.getResultProcessor();
-		Object result = execute(returnType, concreteType, getQueryString(), params, accessor);
+
+		Object result;
+		if (returnType.equals(Optional.class)) {
+			final Class optionalType = (Class)((ParameterizedTypeImpl) graphQueryMethod.getMethod().getGenericReturnType()).getActualTypeArguments()[0];
+			result = Optional.of(execute(optionalType, concreteType, getQueryString(), params, accessor));
+		}
+		else {
+			result = execute(returnType, concreteType, getQueryString(), params, accessor);
+		}
 
 		return Result.class.equals(returnType) ? result :
 				processor.withDynamicProjection(accessor).processResult(result);

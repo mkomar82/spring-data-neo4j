@@ -23,6 +23,7 @@
     </modules>
 
     <properties>
+        <dist.key>DATAGRAPH</dist.key>
         <project.type>multi</project.type>
         <springdata.commons>1.13.0.BUILD-SNAPSHOT</springdata.commons>
         <source.level>1.7</source.level>
@@ -78,6 +79,9 @@
         <developer>
             <id>mangrish</id>
             <name>Mark Angrish</name>
+            <email>mark.angrish at graphaware.com</email>
+            <organization>GraphAware</organization>
+            <organizationUrl>http://www.graphaware.com</organizationUrl>
             <roles>
                 <role>Developer</role>
             </roles>
