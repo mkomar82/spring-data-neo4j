@@ -1,6 +1,18 @@
 Spring Data Neo4j Changelog
 ===========================
 
+Changes in version 4.2.0.RC1 (2016-12-02)
+----------------------------------------
+
+* DATAGRAPH-930 - Upgrade Neo4j OGM to 2.1.0.RC1.
+* DATAGRAPH-904 - Support for other repository query keywords available in Spring Data.
+* DATAGRAPH-927 - Upgrade to OGM 2.1.0-SNAPSHOT.
+* DATAGRAPH-922 - Translated all Cypher Exceptions to Spring Data Exception hierarchy.
+* DATAGRAPH-920 - Fix to support Spring Data REST.
+* DATAGRAPH-813 - Support for countBy and delete/removeBy in derived finders.
+* DATAGRAPH-561 - Support for findByPropertyNear.
+* DATAGRAPH-914 - Upgrade to Neo4j OGM 2.0.6-snapshot.
+
 Changes in version 5.0.0.M1 (2016-11-23)
 ----------------------------------------
 * DATAGRAPH-928 - Update OGM to 2.1.0.M1.

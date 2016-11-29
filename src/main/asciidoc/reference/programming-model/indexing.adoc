@@ -11,8 +11,14 @@ The default index is now based on labels and schema indexes and the related old 
 The "legacy" index framework should only be used for fulltext and spatial indexes which are not currently supported via schema-based indexes.
 ====
 
-== Index Management in Spring Data Neo4j 4
+Previous version of SDN have restricted developers to only be able to find unique Objects the internal Neo4j ID.
+This can be a problem for users when running Neo4j across restarts as this can result in key duplication.
+In order to support querying for unique objects via business or synthetic (e.g. UUID) properties, SDN can now
+enforce uniqueness constraints on certain properties for to make lookups easier.  On top of this, many users have the
+use case of wanting to save their objects via this same property and in effect have SDN run the `MERGE`
+operation using the same property to identify the object.
 
+== Index Management in Spring Data Neo4j 4
 
 SDN 4.2 allows developers to mark up OGM managed classes with the `@Index` annotation.
 
