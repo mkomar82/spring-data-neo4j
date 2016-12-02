@@ -313,7 +313,6 @@ public class RestaurantIT extends MultiDriverTestClass {
 	}
 
 	/**
-	 * All findByPropertyLike does currently is to require an exact match, ignoring case.
 	 * @see DATAGRAPH-904
 	 */
 	@Test
@@ -334,7 +333,6 @@ public class RestaurantIT extends MultiDriverTestClass {
 
 
 	/**
-	 * All findByPropertyLike does currently is to require an exact match, ignoring case.
 	 * @see DATAGRAPH-904
 	 */
 	@Test

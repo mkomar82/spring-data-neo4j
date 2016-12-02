@@ -51,6 +51,128 @@ and has been deprecated.
 
 == Query and Finder Methods
 
+=== Derived Finders
+
+Derived finders provide a way to generate repositories at runtime, simply by defining an
+interface, where the method names on that interface are according to a convention, for example `findByNameAndScoreBetween`.
+
+The derived finder system is implemented in Spring Data Commons. Each of the child projects in the Spring Data ecosystem implement a subset of the methods provided by commons.
+
+The table below shows what has been implemented in Spring Data Neo4j.
+
+[cols="3,^1,10",options="header"]
+|===
+Keywords|Available in Spring Data Neo4j|Example
+
+| IsBetween, Between
+| ✓
+| `findByScoreBetween(70.0, 80.0)`
+
+| IsNotNull, NotNull
+| ✓
+| `findByDescriptionIsNotNull()`
+
+| IsNull, Null
+| ✓
+| `findByDescriptionIsNull()`
+
+| IsLessThan, LessThan
+| ✓
+| `findByCircumferenceIsLessThan(40.0)`
+
+| IsLessThanEqual, LessThanEqual
+| ✓
+| `findByCircumferenceIsLessThanEqual(40.0)`
+
+| IsGreaterThan, GreaterThan
+| ✓
+| `findByCircumferenceIsGreaterThan(40.0)`
+
+| IsGreaterThanEqual, GreaterThanEqual
+| ✓
+| `findByCircumferenceIsGreaterThanEqual(40.0)`
+
+| IsBefore, Before
+| ✓
+| `findByLaunchDateBefore(date)`
+
+| IsAfter, After
+| ✓
+| `findByLaunchDateAfter(date)`
+
+| IsAfter, After
+| ✓
+| `findByLaunchDateAfter(date)`
+
+| IsNotLike, NotLike
+| ✓
+| `findByNameNotLike("*san francisco international*")`
+
+| IsLike, Like
+| ✓
+| `findByNameLike("*san francisco international*")`
+
+| IsStartingWith, StartingWith, StartsWith
+| ✓
+| `findByNameStartingWith("San Francisco")`
+
+| IsEndingWith, EndingWith, EndsWith
+| ✓
+| `findByNameEndingWith("Airport")`
+
+| IsNotContaining, NotContaining, NotContains
+| ✓
+| `findByNameNotContaining("Moon")`
+
+| IsContaining, Containing, Contains
+| ✓
+| `findByNameContaining("Moon")`
+
+| IsNotIn, NotIn
+| ✓
+| `findByNameNotIn(Arrays.asList("Moon", "Bull"))`
+
+| IsIn, In
+| ✓
+| `findByNameIn(Arrays.asList("Moon", "Bull"))`
+
+| IsNear, Near
+| ✓
+| `findByLocationNear(new Distance(150, Metrics.KILOMETERS), new Point(37.6, -122.3))`
+
+| MatchesRegex, Matches, Regex
+| ✓
+| `findByNameMatchesRegex("(?i)san francisco.*")`
+
+| Exists
+| ✓
+| `findByNameExists()`
+
+| IsTrue, True
+| ✓
+| `findByHalalIsTrue()`
+
+| IsFalse, False
+| ✓
+| `findByHalalIsFalse()`
+
+| Is, Equals, (or implicit)
+| ✓
+| `findByName("Jasper")`
+
+| IsWithin, Within
+| ✘
+| Not supported as of SDN 4.2
+
+
+
+
+
+
+
+|===
+
+
 [[reference_programming_model_annotatedQueries]]
 === Annotated queries
 
