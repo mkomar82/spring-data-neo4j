@@ -94,4 +94,4 @@ this to be the case in all environments. SDN provides a validation option that m
 
 Note that these facilities are only available on Neo4j 3+.
 
-For more information about Indexes and Constrains in Neo4j see the http://neo4j.com/docs/developer-manual/current/#cypherdoc-labels-constraints-and-indexes[Neo4j Reference Manual].
+For more information about Indexes and Constraints in Neo4j see the http://neo4j.com/docs/developer-manual/current/#cypherdoc-labels-constraints-and-indexes[Neo4j Reference Manual].

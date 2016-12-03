@@ -160,13 +160,17 @@ Keywords|Available in Spring Data Neo4j|Example
 | ✓
 | `findByName("Jasper")`
 
+| Count
+| ✓
+| `countByRating(5)`
+
+| Delete
+| ✓
+| `deleteByActive(false)`
+
 | IsWithin, Within
 | ✘
 | Not supported as of SDN 4.2
-
-
-
-
 
 
 

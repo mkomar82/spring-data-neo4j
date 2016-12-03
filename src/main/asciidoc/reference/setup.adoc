@@ -79,6 +79,10 @@ If you'd rather like the latest snapshots of the upcoming major version, use our
 
 ----
 
+[NOTE]
+As of 4.2.0 the Neo4j OGM embedded driver no longer ships with the Neo4j kernel.  Users are expected to provide this dependency through their
+dependency management system.
+
 [[reference.getting_started.dependencies.testing]]
 ==== Testing
 

@@ -79,7 +79,6 @@ The following annotations are no longer used, either because they are no longer 
 * @GraphTraversal
 * @RelatedToVia
 * @RelatedTo
-* @Index
 * @TypeAlias
 * @Fetch
 

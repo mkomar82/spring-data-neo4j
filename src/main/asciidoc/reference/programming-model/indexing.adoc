@@ -22,7 +22,7 @@ operation using the same property to identify the object.
 
 SDN 4.2 allows developers to mark up OGM managed classes with the `@Index` annotation.
 
-To mark a field as indexed simply add the `@Index` annotation.  If your field must be unique add `@Index(unique=true)`.  You may add as many indexes or constraints as you like to your class.  If you annotate a field in a class that is part of an inheritance hierarchy then the index or constraint will only be added to that class's label.
+To mark a field as indexed simply add the `@Index` annotation.  If your field must be unique add `@Index(unique=true)`.  You may add as many indexes or constraints as you like to your class.  If you annotate a field in a class that is part of an inheritance hierarchy then the index or constraint will only be added to that class' label.
 
 By default index management is set to `None`.
 
