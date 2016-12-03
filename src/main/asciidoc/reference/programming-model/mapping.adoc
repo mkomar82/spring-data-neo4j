@@ -17,6 +17,11 @@ SDN 4.2 allows users to `@Autowire Session` into Spring managed services directl
 == Explicit save
 Unlike the previous AspectJ-driven mapping, Spring Data Neo4j 4 doesn't automatically commit when a transaction closes, so an explicit call to `save(...)` is required in order to persist changes to the database.
 
+[NOTE]
+====
+Consider batching saves when you have a collection of entities to be saved. The repository `save(Iterable<S> entities)` method will result in a single request sent to Neo4j, which is more performant than multiple `save(S entity)` calls.
+====
+
 == Fine-grained control via depth specification
 The new object mapping framework in Spring Data Neo4j introduces the concept of persistence horizon (depth).
 On any individual request, the persistence horizon indicates how many relationships should be traversed in the graph when loading or saving data.
