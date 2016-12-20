@@ -13,6 +13,8 @@
 
 package org.springframework.data.neo4j.repository.support;
 
+import java.io.Serializable;
+
 import org.neo4j.ogm.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mapping.context.MappingContext;
@@ -31,9 +33,18 @@ import org.springframework.util.Assert;
  * @author Luanne Misquitta
  * @author Mark Angrish
  */
-public class Neo4jRepositoryFactoryBean<T extends Repository<S, Long>, S> extends TransactionalRepositoryFactoryBeanSupport<T, S, Long> {
+public class Neo4jRepositoryFactoryBean<T extends Repository<S, ID>, S, ID extends Serializable> extends TransactionalRepositoryFactoryBeanSupport<T, S, ID> {
 
 	private Session session;
+	
+	/**
+	 * Creates a new {@link Neo4jRepositoryFactoryBean} for the given repository interface.
+	 * 
+	 * @param repositoryInterface must not be {@literal null}.
+	 */
+	public Neo4jRepositoryFactoryBean(Class<? extends T> repositoryInterface) {
+		super(repositoryInterface);
+	}
 
 	@Autowired
 	public void setSession(Session session) {
