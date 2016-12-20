@@ -13,12 +13,14 @@
 package org.springframework.data.neo4j.repository.sample;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.domain.sample.User;
 import org.springframework.data.neo4j.repository.GraphRepository;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -68,4 +70,7 @@ public interface UserRepository extends GraphRepository<User> {
 	@Query("MATCH (n:User{emailAddress:{emailAddress}}) return n")
 	@Transactional(readOnly = true)
 	User findByAnnotatedQuery(String emailAddress);
+
+	@Query("MATCH (n:User{emailAddress:{emailAddress}})-[r]-(m) return n,r,m")
+	Optional<User> findOptionalByEmailAddress(@Param("emailAddress") String emailAddress);
 }

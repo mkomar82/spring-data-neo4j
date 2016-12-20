@@ -18,6 +18,7 @@ import static org.junit.Assert.*;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -40,6 +41,7 @@ import org.springframework.data.neo4j.examples.movies.domain.Director;
 import org.springframework.data.neo4j.examples.movies.domain.TempMovie;
 import org.springframework.data.neo4j.examples.movies.domain.User;
 import org.springframework.data.neo4j.examples.movies.domain.queryresult.EntityWrappingQueryResult;
+import org.springframework.data.neo4j.examples.movies.domain.queryresult.UserQueryResult;
 import org.springframework.data.neo4j.examples.movies.repo.CinemaRepository;
 import org.springframework.data.neo4j.examples.movies.repo.DirectorRepository;
 import org.springframework.data.neo4j.examples.movies.repo.RatingRepository;
@@ -674,6 +676,49 @@ public class DerivedQueryIT extends MultiDriverTestClass {
 		assertEquals(10, page.getNumberOfElements());
 		assertFalse(page.hasNext());
 	}
+
+	/**
+	 * @see DATAGRAPH-779
+	 */
+	@Test
+	public void optionalReturnTypeInDerivedQuery() {
+		executeUpdate("CREATE (m:User {name:'Michal'})");
+
+		Optional<User> vince = userRepository.findDerivedOptionalByName("Vince");
+		assertFalse(vince.isPresent());
+
+		Optional<User> michal = userRepository.findDerivedOptionalByName("Michal");
+		assertEquals("Michal", michal.get().getName());
+	}
+
+	/**
+	 * @see DATAGRAPH-779
+	 */
+	@Test
+	public void optionalReturnTypeInQueryAnnotated() {
+		executeUpdate("CREATE (m:User {name:'Michal'})");
+
+		Optional<User> vince = userRepository.findQueryOptionalByName("Vince");
+		assertFalse(vince.isPresent());
+
+		Optional<User> michal = userRepository.findQueryOptionalByName("Michal");
+		assertEquals("Michal", michal.get().getName());
+	}
+
+	/**
+	 * @see DATAGRAPH-779
+	 */
+	@Test
+	public void optionalReturnTypeInQueryResult() {
+		executeUpdate("CREATE (m:User {name:'Michal'})");
+
+		Optional<UserQueryResult> vince = userRepository.findQueryResultOptionalByName("Vince");
+		assertFalse(vince.isPresent());
+
+		Optional<UserQueryResult> michal = userRepository.findQueryResultOptionalByName("Michal");
+		assertEquals("Michal", michal.get().getUserName());
+	}
+
 
 
 	class DerivedQueryRunner implements Runnable {
